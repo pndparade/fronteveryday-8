@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing toggle component</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page">
+  <div class="container">
+    <div class="pricing">
+      <h1 class="pricing__title">Our Pricing</h1>
+      <div class="pricing__switcher radio-switcher">
+        <span class="radio-switcher__option js-annually-toggle">
+          Annually
+        </span>
+        <label class="radio-switcher__checkbox">
+          <input class="radio-switcher__input" type="checkbox">
+          <span class="radio-switcher__toggler"><span></span></span>
+        </label>
+        <span class="radio-switcher__option js-monthly-toggle">
+          Mouthly
+        </span>
+      </div>
+      <div class="pricing__list">
+        <div class="price-card">
+          <div class="price-card__title">Basic</div>
+          <div class="price-card__price">$<span>19.99</span></div>
+          <ul class="price-card__description">
+            <li>500 GB Storage</li>
+            <li>2 Users Allowed</li>
+            <li>Send up to 3 GB</li>
+          </ul>
+          <a href="#!" class="price-card__link button"><span>Learn more</span></a>
+        </div>
+
+        <div class="price-card is-active">
+          <div class="price-card__title">Professional</div>
+          <div class="price-card__price">$<span>24.99</span></div>
+          <ul class="price-card__description">
+            <li>1 TB Storage</li>
+            <li>5 Users Allowed</li>
+            <li>Send up to 10 GB</li>
+          </ul>
+          <a href="#!" class="price-card__link button"><span>Learn more</span></a>
+        </div>
+
+        <div class="price-card">
+          <div class="price-card__title">Master</div>
+          <div class="price-card__price">$<span>39.99</span></div>
+          <ul class="price-card__description">
+            <li>2 TB Storage</li>
+            <li>10 Users Allowed</li>
+            <li>Send up to 20 GB</li>
+          </ul>
+          <a href="#!" class="price-card__link button"><span>Learn more</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ANNUAL_DISCOUNT = 20;
+    const priceElements = document.querySelectorAll('.price-card__price span');
+    const priceList = [];
+    priceElements.forEach((elem) => {
+      priceList.push(elem.textContent);
+    })
+
+    function updatePrice(checkboxState) {
+      priceElements.forEach((elem, index) => {
+        let newPrice;
+        
+        if(checkboxState) {
+          newPrice = (priceList[index] * 12 * (100 - ANNUAL_DISCOUNT) / 100).toFixed(0);
+        } else {
+          newPrice = priceList[index];
+        }
+
+        elem.textContent = newPrice;
+      });
+    }
+
+    const toggler = document.querySelector('.radio-switcher__input');
+    const annuallyToggler = document.querySelector('.js-annually-toggle');
+    const monthlyToggler = document.querySelector('.js-monthly-toggle');
+
+    toggler.addEventListener('change', (event) => {
+      updatePrice(event.target.checked);
+    });
+
+    annuallyToggler.addEventListener('click', () => {
+      toggler.checked = true;
+      updatePrice(true);
+    });
+
+    monthlyToggler.addEventListener('click', () => {
+      toggler.checked = false;
+      updatePrice(false);
+    });
+  </script>
+</body>
+</html>
