@@ -95,12 +95,12 @@
 
     annuallyToggler.addEventListener('click', () => {
       toggler.checked = true;
-      updatePrice(true);
+      toggler.dispatchEvent(new Event('change'));
     });
 
     monthlyToggler.addEventListener('click', () => {
       toggler.checked = false;
-      updatePrice(false);
+      toggler.dispatchEvent(new Event('change'));
     });
   </script>
 </body>
